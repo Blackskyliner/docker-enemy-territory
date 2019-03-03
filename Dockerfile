@@ -29,5 +29,8 @@ RUN set -e \
     && chmod 0755 /opt/application/et /opt/application/et.x86 /opt/application/etded.x86 /opt/application/etl /opt/application/etl_bot.sh /opt/application/etl_renderer2.sh /opt/application/etlded /opt/application/etlded_bot.sh \
     && rm -rf /tmp/et && rm -rf /tmp/etl
 
+VOLUME [ "/opt/application/etmain" ]
+VOLUME [ "/opt/application/nitmod" ]
+
 ADD entrypoint.d /entrypoint.d
 CMD [ "run-as-user", "/opt/application/etlded", "+set", "fs_game", "nitmod", "+exec", "server.cfg" ]

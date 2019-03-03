@@ -1,0 +1,9 @@
+version: "2"
+services:
+  server:
+    image: blackskyliner/enemy-territory
+    environment:
+      ET_MAPS: "adlernest"
+    volumes:
+      - ./config/server.cfg:/opt/application/etmain/server.cfg
+      - ./config/nitmod.cfg:/opt/application/nitmod/nitmod.cfg
