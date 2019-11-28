@@ -1,4 +1,4 @@
-FROM base/ubuntu:bionic 
+FROM blackskyliner/base:ubuntu-bionic
 
 RUN apt-get update && apt-get install -y p7zip p7zip-full p7zip-rar wget && rm -rf /var/lib/apt/lists/* 
 ADD gamefiles /tmp
