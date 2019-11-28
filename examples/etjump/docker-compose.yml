@@ -1,0 +1,30 @@
+version: "2"
+services:
+  server:
+    restart: unless-stopped
+    image: blackskyliner/enemy-territory:latest
+    ports:
+        - $SERVER_PORT:27960/tcp
+        - $SERVER_PORT:27960/udp
+    env_file:
+      - .env
+    volumes:
+      - ./gamefiles/server.cfg:/opt/application/etmain/server.cfg
+      - ./gamefiles/config:/opt/application/etmain/config
+      - ./persistent:/opt/application/.etlegacy
+      - persistent_mappool:/opt/mappool
+      - ./maps.csv:/opt/mappool/maps.csv
+    command:
+      - exec-as-user
+      - /opt/application/etlded
+      - +set
+      - fs_game 
+      - etjump
+      - +set 
+      - fs_basepath 
+      - /opt/application
+      - +exec 
+      - server.cfg
+
+volumes:
+  persistent_mappool:

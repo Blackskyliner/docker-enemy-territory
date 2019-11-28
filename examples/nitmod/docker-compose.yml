@@ -1,0 +1,20 @@
+version: "2"
+services:
+  server:
+    restart: unless-stopped
+    image: blackskyliner/enemy-territory
+    ports:
+        - $SERVER_PORT:27960/tcp
+        - $SERVER_PORT:27960/udp
+    env_file:
+      - .env
+    volumes:
+      - ./gamefiles/server.cfg:/opt/application/etmain/server.cfg
+      - ./gamefiles/nitmod.cfg:/opt/application/nitmod/nitmod.cfg
+      - ./gamefiles/config:/opt/application/etmain/config
+      - ./gamefiles/omni-bot:/opt/application/omni-bot
+      - ./persistent:/opt/application/.etlegacy
+      - persistent_mappool:/opt/mappool
+      - ./maps.csv:/opt/mappool/maps.csv
+volumes:
+  persistent_mappool:
