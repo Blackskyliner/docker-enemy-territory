@@ -11,3 +11,7 @@ fi
 if [[ ! -e /tmp/nitmod.zip ]]; then
     wget -q -O nitmod.zip http://etmods.net/forums/filedl.php?id=9
 fi
+
+if [[ ! -e /tmp/etjump.zip ]]; then
+    wget --no-check-certificate -q -O etjump.zip https://etjump.com/etjump/etjump-2_3_0.zip
+fi
