@@ -1,6 +1,6 @@
-FROM blackskyliner/base-centos
+FROM base/ubuntu:bionic 
 
-RUN yum install -y p7zip glibc.i686 libgcc.i686 libstdc++.i686
+RUN apt-get update && apt-get install -y p7zip p7zip-full p7zip-rar wget && rm -rf /var/lib/apt/lists/* 
 ADD gamefiles /tmp
 
 RUN set -e \    
@@ -20,17 +20,20 @@ RUN set -e \
     && cp /tmp/et/bin/Linux/x86/* /opt/application \
     && cp -R /tmp/et/etmain /opt/application \
     && mkdir /opt/application/.etlegacy \
-    && mkdir /opt/application/nitmod && unzip /tmp/nitmod.zip -d /opt/application/nitmod && rm /tmp/nitmod.zip \
+    && unzip /tmp/nitmod.zip -d /opt/application/nitmod && rm /tmp/nitmod.zip \
+    && unzip /tmp/etjump.zip -d /opt/application/etjump && rm /tmp/etjump.zip \
     && mv /tmp/server.cfg /opt/application/etmain \
     && mv /tmp/nitmod.cfg /opt/application/nitmod \
     && chown -R application:application /opt/application \
     && find /opt/application -type f -exec chmod 0644 {} \;  \
     && find /opt/application -type d -exec chmod 0755 {} \;  \
     && chmod 0755 /opt/application/et /opt/application/et.x86 /opt/application/etded.x86 /opt/application/etl /opt/application/etl_bot.sh /opt/application/etl_renderer2.sh /opt/application/etlded /opt/application/etlded_bot.sh \
-    && rm -rf /tmp/et && rm -rf /tmp/etl
+    && rm -rf /tmp/et && rm -rf /tmp/etl \
+    && mkdir /opt/mappool && chown -R application:application /opt/mappool
 
-VOLUME [ "/opt/application/etmain" ]
-VOLUME [ "/opt/application/nitmod" ]
+RUN apt-get update && apt-get install -y gcc-multilib && rm -rf /var/lib/apt/lists/*
+
+VOLUME [ "/opt/mappool" ]
 
 ADD entrypoint.d /entrypoint.d
-CMD [ "run-as-user", "/opt/application/etlded", "+set", "fs_game", "nitmod", "+exec", "server.cfg" ]
+CMD [ "exec-as-user", "/opt/application/etlded", "+set", "fs_game", "nitmod", "+exec", "server.cfg" ]
